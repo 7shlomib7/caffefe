@@ -178,7 +178,7 @@ function App() {
     setLoading(true);setError("");setResult(null);
     try{
       const selText=Object.entries(sel).filter(([,v])=>v?.length).map(([k,v])=>`${PARAMS.find(p=>p.id===k)?.label||k}: ${v.join(", ")}`).join("\n");
-      const res=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:buildPrompt(selText,freeText,locName)}]})});
+      const res=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({max_tokens:1000,messages:[{role:"user",content:buildPrompt(selText,freeText,locName)}]})});
       const data=await res.json();
       const txt=data.content?.filter(b=>b.type==="text").map(b=>b.text).join("")||"";
       const clean=txt.replace(/```json|```/g,"").trim();
